@@ -22,7 +22,7 @@ jobs:
         run: |
           docker build -t ${{ secrets.SCW_REGISTRY_NAMESPACE }}/${{ secrets.SCW_REPOSITORY_NAME }}:${{ github.sha }} ./backend
       - name: Login to Scaleway Container Registry
-        run: echo ${{ secrets.SCW_REGISTRY_TOKEN }} | docker login ${{ secrets.SCW_REGISTRY_ENDPOINT }} -u ${{ secrets.SCW_REGISTRY_NAMESPACE }} --password-stdin
+        run: echo ${{ secrets.SCW_REGISTRY_TOKEN }} | docker login ${{ secrets.SCW_REGISTRY_ENDPOINT }} -u nologin --password-stdin
       - name: Push Docker image
         run: |
           docker push ${{ secrets.SCW_REGISTRY_NAMESPACE }}/${{ secrets.SCW_REPOSITORY_NAME }}:${{ github.sha }}
