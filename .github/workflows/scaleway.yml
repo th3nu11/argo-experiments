@@ -1,0 +1,27 @@
+name: Build and Push to Scaleway Container Registry
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.SCW_REGISTRY_NAMESPACE }}/${{ secrets.SCW_REPOSITORY_NAME }}:${{ github.sha }} ./backend
+      - name: Login to Scaleway Container Registry
+        run: echo ${{ secrets.SCW_REGISTRY_TOKEN }} | docker login ${{ secrets.SCW_REGISTRY_ENDPOINT }} -u ${{ secrets.SCW_REGISTRY_NAMESPACE }} --password-stdin
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.SCW_REGISTRY_NAMESPACE }}/${{ secrets.SCW_REPOSITORY_NAME }}:${{ github.sha }}
