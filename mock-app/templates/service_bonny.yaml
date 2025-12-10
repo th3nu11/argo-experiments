@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bonny-service
+  labels:
+    app: bonny-service
+spec:
+  selector:
+    app: app-bonny
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

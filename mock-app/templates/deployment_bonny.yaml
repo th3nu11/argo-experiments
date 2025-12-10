@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-bonny
+  labels:
+    app: app-bonny
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-bonny
+  template:
+    metadata:
+      labels:
+        app: app-bonny
+    spec:
+      containers:
+        - name: container-bonny
+          image: "rg.fr-par.scw.cloud/bonny-registry/bonny-be:2f123a39578026bf00ff0761cdf14f2d692df7b1"
+          ports:
+          - containerPort: 3000
