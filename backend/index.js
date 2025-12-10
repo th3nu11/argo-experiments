@@ -3,7 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const podId = process.env.HOSTNAME || "unknown";
 
-const loopCount = 10_000_000;
+const loopCount = process.env.LOOP_COUNT || 1_000_000;
 
 app.get('/hello1', (req, res) => {
     res.send('Hello World 1!');
