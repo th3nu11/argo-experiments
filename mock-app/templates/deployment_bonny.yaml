@@ -16,11 +16,11 @@ spec:
     spec:
       containers:
         - name: container-bonny
-          image: "rg.fr-par.scw.cloud/bonny-registry/bonny-be:49d9782793c111f1de59b99e4d9a04dd0503f42b"
+          image: "rg.fr-par.scw.cloud/bonny-registry/bonny-be:3dc1a7df9199ac622d2e6f3e1ca15cf4aac573e3"
           ports:
           - containerPort: 3000
           resources:
             requests:
-              cpu: 70m
-            limits:
               cpu: 100m
+            limits:
+              cpu: 200m
