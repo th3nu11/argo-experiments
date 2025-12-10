@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: container-bonny
-          image: "rg.fr-par.scw.cloud/bonny-registry/bonny-be:2f123a39578026bf00ff0761cdf14f2d692df7b1"
+          image: "rg.fr-par.scw.cloud/bonny-registry/bonny-be:49d9782793c111f1de59b99e4d9a04dd0503f42b"
           ports:
           - containerPort: 3000
