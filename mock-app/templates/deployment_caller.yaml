@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment-bonny
+  name: deployment-caller
   labels:
     app: app-caller
 spec:
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: container-caller
-          image: "rg.fr-par.scw.cloud/bonny-registry/bonny-caller:20251212-150951"
+          image: "rg.fr-par.scw.cloud/bonny-registry/bonny-caller:20251212-151714"
           env:
             - name: BACKEND_URL
               value: "http://app-backend:3000/work"
