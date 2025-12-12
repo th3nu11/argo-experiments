@@ -36,7 +36,7 @@ async function callBackend() {
     } catch (e) {
         const code = e.response ? String(e.response.status) : 'ERR';
         requestCounter.labels(code).inc();
-        // Optionally log error
+        console.error('Backend call failed:', e.stack || e.message || e);
     }
 }
 
