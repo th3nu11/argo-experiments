@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-bonny
+  labels:
+    app: app-caller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-caller
+  template:
+    metadata:
+      labels:
+        app: app-caller
+    spec:
+      containers:
+        - name: container-caller
+          image: "rg.fr-par.scw.cloud/bonny-registry/bonny-caller:3dc1a7df9199ac622d2e6f3e1ca15cf4aac573e3"
+          env:
+            - name: BACKEND_URL
+              value: "http://app-backend:3000/work"
+          ports:
+          - containerPort: 3000
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 200m

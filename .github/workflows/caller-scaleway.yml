@@ -1,0 +1,32 @@
+name: Build and Push to Scaleway Container Registry
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'caller/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    environment: bonny
+    env:
+      IMG_NAME: bonny-caller
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Set image tag
+        run: echo "IMAGE_TAG=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.SCW_REGISTRY_NAMESPACE }}/${{ env.IMG_NAME }}:${{ env.IMAGE_TAG }} ./caller
+      - name: Login to Scaleway Container Registry
+        run: echo ${{ secrets.SCW_REGISTRY_TOKEN }} | docker login ${{ secrets.SCW_REGISTRY_ENDPOINT }} -u nologin --password-stdin
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.SCW_REGISTRY_NAMESPACE }}/${{ env.IMG_NAME }}:${{ env.IMAGE_TAG }}

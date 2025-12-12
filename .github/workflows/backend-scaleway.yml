@@ -18,11 +18,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Set image tag
+        run: echo "IMAGE_TAG=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.SCW_REGISTRY_NAMESPACE }}/${{ secrets.SCW_REPOSITORY_NAME }}:${{ github.sha }} ./backend
+          docker build -t ${{ secrets.SCW_REGISTRY_NAMESPACE }}/${{ secrets.SCW_REPOSITORY_NAME }}:${{ env.IMAGE_TAG }} ./backend
       - name: Login to Scaleway Container Registry
         run: echo ${{ secrets.SCW_REGISTRY_TOKEN }} | docker login ${{ secrets.SCW_REGISTRY_ENDPOINT }} -u nologin --password-stdin
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.SCW_REGISTRY_NAMESPACE }}/${{ secrets.SCW_REPOSITORY_NAME }}:${{ github.sha }}
+          docker push ${{ secrets.SCW_REGISTRY_NAMESPACE }}/${{ secrets.SCW_REPOSITORY_NAME }}:${{ env.IMAGE_TAG }}

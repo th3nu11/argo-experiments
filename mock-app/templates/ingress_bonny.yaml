@@ -17,3 +17,13 @@ spec:
                 name: bonny-service
                 port:
                   number: 3000
+    - host: {{.Values.host}}
+      http:
+        paths:
+          - path: /caller(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: caller-service
+                port:
+                  number: 3000
