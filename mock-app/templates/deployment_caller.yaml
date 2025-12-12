@@ -20,6 +20,8 @@ spec:
           env:
             - name: BACKEND_URL
               value: "http://app-backend:3000/work"
+            - name: PORT
+              value: "3000"
           ports:
           - containerPort: 3000
           resources:
