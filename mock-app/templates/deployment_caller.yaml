@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: container-caller
-          image: "rg.fr-par.scw.cloud/bonny-registry/bonny-caller:20251212-153611"
+          image: "rg.fr-par.scw.cloud/bonny-registry/bonny-caller:20251212-154159"
           env:
             - name: BACKEND_URL
               value: "http://bonny-service:3000/work"
