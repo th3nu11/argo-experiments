@@ -21,6 +21,17 @@ const durationHistogram = new client.Histogram({
     labelNames: ['pod']
 });
 
+const intervalGauge = new client.Gauge({
+    name: 'caller_interval_ms',
+    help: 'Interval in ms for backend calls'
+});
+
+const statusGauge = new client.Gauge({
+    name: 'caller_status',
+    help: 'Status of the caller: 1 for running, 0 for not running'
+});
+statusGauge.set(0); // Initially not running
+
 app.get('/hello', (req, res) => {
     res.send('Hello World');
 });
@@ -44,6 +55,8 @@ app.get('/run', (req, res) => {
     const interval = parseInt(req.query.interval, 10) || 1000;
     if (running) return res.json({ status: 'Already running' });
     running = true;
+    intervalGauge.set(interval);
+    statusGauge.set(1);
     intervalId = setInterval(() => {
         callBackend();
     }, interval);
@@ -53,6 +66,7 @@ app.get('/run', (req, res) => {
 app.get('/stop', (req, res) => {
     if (intervalId) clearInterval(intervalId);
     running = false;
+    statusGauge.set(0);
     res.json({ status: 'Stopped' });
 });
 
