@@ -8,6 +8,6 @@ spec:
   selector:
     app: app-caller
   ports:
-    - protocol: TCP
+    - name: http
       port: 3000
       targetPort: 3000
