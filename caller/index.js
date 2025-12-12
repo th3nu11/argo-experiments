@@ -11,7 +11,8 @@ let running = false;
 
 const requestCounter = new client.Counter({
     name: 'caller_requests_total',
-    help: 'Total number of requests sent to backend'
+    help: 'Total number of requests sent to backend',
+    labelNames: ['code']
 });
 
 const durationHistogram = new client.Histogram({
@@ -28,11 +29,13 @@ async function callBackend() {
     const start = Date.now();
     try {
         const response = await axios.get(backendUrl);
-        requestCounter.inc();
+        requestCounter.labels(String(response.status)).inc();
         const duration = Date.now() - start;
         const pod = response.data.pod || 'unknown';
         durationHistogram.labels(pod).observe(duration);
     } catch (e) {
+        const code = e.response ? String(e.response.status) : 'ERR';
+        requestCounter.labels(code).inc();
         // Optionally log error
     }
 }
