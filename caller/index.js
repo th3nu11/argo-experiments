@@ -18,7 +18,7 @@ const requestCounter = new client.Counter({
 const durationHistogram = new client.Histogram({
     name: 'caller_request_duration_ms',
     help: 'Duration of each backend call in ms',
-    labelNames: ['pod']
+    labelNames: ['calledpod']
 });
 
 const intervalGauge = new client.Gauge({
@@ -42,8 +42,8 @@ async function callBackend() {
         const response = await axios.get(backendUrl);
         requestCounter.labels(String(response.status)).inc();
         const duration = Date.now() - start;
-        const pod = response.data.pod || 'unknown';
-        durationHistogram.labels(pod).observe(duration);
+        const calledpod = response.data.pod || 'unknown';
+        durationHistogram.labels(calledpod).observe(duration);
     } catch (e) {
         const code = e.response ? String(e.response.status) : 'ERR';
         requestCounter.labels(code).inc();
