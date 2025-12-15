@@ -37,7 +37,7 @@ kubectl port-forward -n monitoring svc/kube-prometheus-stack-prometheus 9090:909
 ```
 
 ### Mark your pod for Prometheus scraping
-Add these annotations to your pod or service:
+~~Add these annotations to your pod or service:~~
 ```yaml
 metadata:
   annotations:
